@@ -3,6 +3,8 @@ module github.com/rohanKanojia/code-generation-using-fabric8
 go 1.14
 
 require (
+	github.com/Kong/kubernetes-ingress-controller v0.0.5 // indirect
+	github.com/kong/kubernetes-ingress-controller v0.0.5 // indirect
 	github.com/openshift/api v0.0.0-20200413201024-c6e8c9b6eb9a
 	k8s.io/api v0.18.0
 	k8s.io/apiextensions-apiserver v0.18.0

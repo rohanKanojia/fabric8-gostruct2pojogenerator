@@ -1,0 +1,14 @@
+{
+    "packages": [
+    {
+        "name":"jinghzhu",
+        "goPackage": "github.com/jinghzhu/KubernetesCRD/pkg/crd/jinghzhu/v1/types.go",
+        "javaPackage": "io.kubernetes.jinghzhu.api.model",
+        "apiGroup":"jinghzhu.k8s.io",
+        "apiVersion": "v1",
+        "types": [
+           {"name":"Jinghzhu", "namespaced":true}
+        ]
+    }
+    ]
+}
