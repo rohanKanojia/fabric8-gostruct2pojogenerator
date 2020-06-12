@@ -1,0 +1,190 @@
+{
+  "id": "http://fabric8.io/kubernetes/MixedCaseSchema#",
+  "$schema": "http://json-schema.org/schema#",
+  "definitions": {
+    "k8s_io_code-generator__examples_MixedCase_apis_example_v1_ClusterTestType": {
+      "type": "object",
+      "description": "",
+      "properties": {
+        "apiVersion": {
+          "type": "string",
+          "description": "",
+          "default": "mixedcase.k8s.io/v1",
+          "required": true
+        },
+        "kind": {
+          "type": "string",
+          "description": "",
+          "default": "ClusterTestType",
+          "required": true
+        },
+        "metadata": {
+          "javaType": "io.fabric8.kubernetes.api.model.ObjectMeta"
+        },
+        "status": {
+          "$ref": "#/definitions/k8s_io_code-generator__examples_MixedCase_apis_example_v1_ClusterTestTypeStatus",
+          "javaType": "io.kubernetes.mixedcase.api.model.ClusterTestTypeStatus"
+        }
+      },
+      "javaType": "io.kubernetes.mixedcase.api.model.ClusterTestType",
+      "javaInterfaces": [
+        "io.fabric8.kubernetes.api.model.HasMetadata",
+        "io.fabric8.kubernetes.api.model.Namespaced"
+      ]
+    },
+    "k8s_io_code-generator__examples_MixedCase_apis_example_v1_ClusterTestTypeList": {
+      "type": "object",
+      "description": "",
+      "properties": {
+        "Items": {
+          "type": "array",
+          "description": "",
+          "items": {
+            "$ref": "#/definitions/k8s_io_code-generator__examples_MixedCase_apis_example_v1_ClusterTestType",
+            "javaType": "io.kubernetes.mixedcase.api.model.ClusterTestType"
+          }
+        },
+        "apiVersion": {
+          "type": "string",
+          "description": "",
+          "default": "mixedcase.k8s.io/v1",
+          "required": true
+        },
+        "kind": {
+          "type": "string",
+          "description": "",
+          "default": "ClusterTestTypeList",
+          "required": true
+        },
+        "metadata": {
+          "javaType": "io.fabric8.kubernetes.api.model.ListMeta"
+        }
+      },
+      "javaType": "io.kubernetes.mixedcase.api.model.ClusterTestTypeList",
+      "javaInterfaces": [
+        "io.fabric8.kubernetes.api.model.KubernetesResource",
+        "io.fabric8.kubernetes.api.model.KubernetesResourceList\u003cio.kubernetes.mixedcase.api.model.ClusterTestType\u003e"
+      ]
+    },
+    "k8s_io_code-generator__examples_MixedCase_apis_example_v1_ClusterTestTypeStatus": {
+      "type": "object",
+      "description": "",
+      "properties": {
+        "Blah": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "javaType": "io.kubernetes.mixedcase.api.model.ClusterTestTypeStatus",
+      "javaInterfaces": [
+        "io.fabric8.kubernetes.api.model.KubernetesResource"
+      ]
+    },
+    "k8s_io_code-generator__examples_MixedCase_apis_example_v1_TestType": {
+      "type": "object",
+      "description": "",
+      "properties": {
+        "apiVersion": {
+          "type": "string",
+          "description": "",
+          "default": "mixedcase.k8s.io/v1",
+          "required": true
+        },
+        "kind": {
+          "type": "string",
+          "description": "",
+          "default": "TestType",
+          "required": true
+        },
+        "metadata": {
+          "javaType": "io.fabric8.kubernetes.api.model.ObjectMeta"
+        },
+        "status": {
+          "$ref": "#/definitions/k8s_io_code-generator__examples_MixedCase_apis_example_v1_TestTypeStatus",
+          "javaType": "io.kubernetes.mixedcase.api.model.TestTypeStatus"
+        }
+      },
+      "javaType": "io.kubernetes.mixedcase.api.model.TestType",
+      "javaInterfaces": [
+        "io.fabric8.kubernetes.api.model.HasMetadata",
+        "io.fabric8.kubernetes.api.model.Namespaced"
+      ]
+    },
+    "k8s_io_code-generator__examples_MixedCase_apis_example_v1_TestTypeList": {
+      "type": "object",
+      "description": "",
+      "properties": {
+        "apiVersion": {
+          "type": "string",
+          "description": "",
+          "default": "mixedcase.k8s.io/v1",
+          "required": true
+        },
+        "items": {
+          "type": "array",
+          "description": "",
+          "items": {
+            "$ref": "#/definitions/k8s_io_code-generator__examples_MixedCase_apis_example_v1_TestType",
+            "javaType": "io.kubernetes.mixedcase.api.model.TestType"
+          }
+        },
+        "kind": {
+          "type": "string",
+          "description": "",
+          "default": "TestTypeList",
+          "required": true
+        },
+        "metadata": {
+          "javaType": "io.fabric8.kubernetes.api.model.ListMeta"
+        }
+      },
+      "javaType": "io.kubernetes.mixedcase.api.model.TestTypeList",
+      "javaInterfaces": [
+        "io.fabric8.kubernetes.api.model.KubernetesResource",
+        "io.fabric8.kubernetes.api.model.KubernetesResourceList\u003cio.kubernetes.mixedcase.api.model.TestType\u003e"
+      ]
+    },
+    "k8s_io_code-generator__examples_MixedCase_apis_example_v1_TestTypeStatus": {
+      "type": "object",
+      "description": "",
+      "properties": {
+        "Blah": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "javaType": "io.kubernetes.mixedcase.api.model.TestTypeStatus",
+      "javaInterfaces": [
+        "io.fabric8.kubernetes.api.model.KubernetesResource"
+      ]
+    }
+  },
+  "type": "object",
+  "properties": {
+    "k8s_io_code-generator__examples_MixedCase_apis_example_v1_ClusterTestType": {
+      "$ref": "#/definitions/k8s_io_code-generator__examples_MixedCase_apis_example_v1_ClusterTestType",
+      "javaType": "io.kubernetes.mixedcase.api.model.ClusterTestType"
+    },
+    "k8s_io_code-generator__examples_MixedCase_apis_example_v1_ClusterTestTypeList": {
+      "$ref": "#/definitions/k8s_io_code-generator__examples_MixedCase_apis_example_v1_ClusterTestTypeList",
+      "javaType": "io.kubernetes.mixedcase.api.model.ClusterTestTypeList"
+    },
+    "k8s_io_code-generator__examples_MixedCase_apis_example_v1_ClusterTestTypeStatus": {
+      "$ref": "#/definitions/k8s_io_code-generator__examples_MixedCase_apis_example_v1_ClusterTestTypeStatus",
+      "javaType": "io.kubernetes.mixedcase.api.model.ClusterTestTypeStatus"
+    },
+    "k8s_io_code-generator__examples_MixedCase_apis_example_v1_TestType": {
+      "$ref": "#/definitions/k8s_io_code-generator__examples_MixedCase_apis_example_v1_TestType",
+      "javaType": "io.kubernetes.mixedcase.api.model.TestType"
+    },
+    "k8s_io_code-generator__examples_MixedCase_apis_example_v1_TestTypeList": {
+      "$ref": "#/definitions/k8s_io_code-generator__examples_MixedCase_apis_example_v1_TestTypeList",
+      "javaType": "io.kubernetes.mixedcase.api.model.TestTypeList"
+    },
+    "k8s_io_code-generator__examples_MixedCase_apis_example_v1_TestTypeStatus": {
+      "$ref": "#/definitions/k8s_io_code-generator__examples_MixedCase_apis_example_v1_TestTypeStatus",
+      "javaType": "io.kubernetes.mixedcase.api.model.TestTypeStatus"
+    }
+  },
+  "additionalProperties": false
+}
