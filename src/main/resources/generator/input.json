@@ -1,17 +1,85 @@
 {
     "packages": [
     {
-        "name":"mixedcase",
-        "goPackage": "k8s.io/code-generator/_examples/MixedCase/apis/example/v1",
-        "javaPackage": "io.kubernetes.mixedcase.api.model",
-        "apiGroup":"mixedcase.k8s.io",
+        "name":"knative_serving_v1",
+        "goPackage": "github.com/knative/serving/pkg/apis/serving/v1",
+        "javaPackage": "io.kubernetes.knative.api.model.serving.v1",
+        "apiGroup":"knative.dev",
         "apiVersion": "v1",
         "types": [
-           {"name":"ClusterTestType", "namespaced":true}, 
-           {"name":"ClusterTestTypeList", "namespaced":true},
-           {"name":"TestType", "namespaced":true},
-           {"name":"TestTypeList", "namespaced":true}
+           {"name":"Service", "namespaced":true},
+           {"name":"ServiceList", "namespaced":true},
+           {"name":"Revision", "namespaced":true},
+           {"name":"RevisionList", "namespaced":true},
+           {"name":"Configuration", "namespaced":true},
+           {"name":"ConfigurationList", "namespaced":true},
+           {"name":"Route", "namespaced":true},
+           {"name":"RouteList", "namespaced":true}
+        ]
+    },
+    {
+        "name":"knative_serving_v1beta1",
+        "goPackage": "github.com/knative/serving/pkg/apis/serving/v1beta1",
+        "javaPackage": "io.kubernetes.knative.api.model.serving.v1beta1",
+        "apiGroup":"knative.dev",
+        "apiVersion": "v1",
+        "types": [
+           {"name":"Service", "namespaced":true},
+           {"name":"ServiceList", "namespaced":true},
+           {"name":"Revision", "namespaced":true},
+           {"name":"RevisionList", "namespaced":true},
+           {"name":"Configuration", "namespaced":true},
+           {"name":"ConfigurationList", "namespaced":true},
+           {"name":"Route", "namespaced":true},
+           {"name":"RouteList", "namespaced":true}
+        ]
+    },
+    {
+        "name":"knative_eventing_v1beta1",
+        "goPackage": "github.com/knative/eventing/pkg/apis/eventing/v1alpha1",
+        "javaPackage": "io.kubernetes.knative.api.model.serving.v1beta1",
+        "apiGroup":"knative.dev",
+        "apiVersion": "v1",
+        "types": [
+           {"name":"Broker", "namespaced":true},
+           {"name":"BrokerList", "namespaced":true},
+           {"name":"Trigger", "namespaced":true},
+           {"name":"TriggerList", "namespaced":true},
+           {"name":"EventType", "namespaced":true},
+           {"name":"EventTypeList", "namespaced":true}
+        ]
+    },
+    {
+        "name":"knative_messaging",
+        "goPackage": "knative.dev/eventing/pkg/apis/messaging/v1alpha1",
+        "javaPackage": "io.kubernetes.knative.api.model.messaging.v1alpha1",
+        "apiGroup":"knative.dev",
+        "apiVersion": "v1",
+        "types": [
+           {"name":"Channel", "namespaced":true},
+           {"name":"ChannelList", "namespaced":true},
+           {"name":"InMemoryChannel", "namespaced":true},
+           {"name":"InMemoryChannelList", "namespaced":true},
+           {"name":"Subscription", "namespaced":true},
+           {"name":"SubscriptionList", "namespaced":true}
         ]
     }
-    ]
+    ],
+    "dependencies": 
+    [
+      {
+          "name": "apis",
+          "goPackage":"knative.dev/pkg/apis",
+          "mapping": {
+              "URL": "java.lang.String",
+              "VolatileTime": "java.lang.String"
+          }
+
+      }
+    ],
+  "internalPackageMapping" : {
+    "knative.dev": "io.fabric8.knative.internal"
+  }
+
 }
+

@@ -4,15 +4,20 @@ go 1.14
 
 require (
 	github.com/Kong/kubernetes-ingress-controller v0.0.5 // indirect
-	github.com/kong/kubernetes-ingress-controller v0.0.5 // indirect
-	github.com/openshift/api v0.0.0-20200413201024-c6e8c9b6eb9a
-	k8s.io/api v0.18.0
-	k8s.io/apiextensions-apiserver v0.18.0
-	k8s.io/apimachinery v0.18.0
-	k8s.io/client-go v0.18.0
-	k8s.io/code-generator v0.18.3
-	k8s.io/kubernetes v1.18.0
-	k8s.io/metrics v0.18.0
+
+	github.com/google/go-containerregistry v0.0.0-20200413145205-82d30a103c0a // indirect
+	github.com/knative/eventing v0.13.2
+	github.com/knative/serving v0.13.2
+	github.com/robfig/cron v1.2.0 // indirect
+	go.uber.org/zap v1.14.1 // indirect
+	gomodules.xyz/jsonpatch/v2 v2.1.0 // indirect
+	k8s.io/api v0.17.4 // indirect
+	k8s.io/apimachinery v0.17.4
+	k8s.io/client-go v0.17.4 // indirect
+	knative.dev/eventing v0.13.2
+	knative.dev/pkg v0.0.0-20200306230727-a56a6ea3fa56
+	knative.dev/serving v0.13.2 // indirect
+
 )
 
 exclude (

@@ -20,7 +20,11 @@ import (
 	"github.com/rohanKanojia/code-generation-using-fabric8/generator/pkg/schemagen"
 
 
-    mixedcase "k8s.io/code-generator/_examples/MixedCase/apis/example/v1"
+    knative_serving_v1 "github.com/knative/serving/pkg/apis/serving/v1"
+knative_serving_v1beta1 "github.com/knative/serving/pkg/apis/serving/v1beta1"
+knative_eventing_v1beta1 "github.com/knative/eventing/pkg/apis/eventing/v1alpha1"
+knative_messaging "knative.dev/eventing/pkg/apis/messaging/v1alpha1"
+apis "knative.dev/pkg/apis"
 
 
 
@@ -34,7 +38,7 @@ func main() {
 	// the CRD List types for which the model should be generated
 	// no other types need to be defined as they are auto discovered
 	crdLists := map[reflect.Type]schemagen.CrdScope{
-		reflect.TypeOf(mixedcase.ClusterTestType{}):  schemagen.Namespaced,reflect.TypeOf(mixedcase.ClusterTestTypeList{}):  schemagen.Namespaced,reflect.TypeOf(mixedcase.TestType{}):  schemagen.Namespaced,reflect.TypeOf(mixedcase.TestTypeList{}):  schemagen.Namespaced,
+		reflect.TypeOf(knative_serving_v1.Service{}):  schemagen.Namespaced,reflect.TypeOf(knative_serving_v1.ServiceList{}):  schemagen.Namespaced,reflect.TypeOf(knative_serving_v1.Revision{}):  schemagen.Namespaced,reflect.TypeOf(knative_serving_v1.RevisionList{}):  schemagen.Namespaced,reflect.TypeOf(knative_serving_v1.Configuration{}):  schemagen.Namespaced,reflect.TypeOf(knative_serving_v1.ConfigurationList{}):  schemagen.Namespaced,reflect.TypeOf(knative_serving_v1.Route{}):  schemagen.Namespaced,reflect.TypeOf(knative_serving_v1.RouteList{}):  schemagen.Namespaced,reflect.TypeOf(knative_serving_v1beta1.Service{}):  schemagen.Namespaced,reflect.TypeOf(knative_serving_v1beta1.ServiceList{}):  schemagen.Namespaced,reflect.TypeOf(knative_serving_v1beta1.Revision{}):  schemagen.Namespaced,reflect.TypeOf(knative_serving_v1beta1.RevisionList{}):  schemagen.Namespaced,reflect.TypeOf(knative_serving_v1beta1.Configuration{}):  schemagen.Namespaced,reflect.TypeOf(knative_serving_v1beta1.ConfigurationList{}):  schemagen.Namespaced,reflect.TypeOf(knative_serving_v1beta1.Route{}):  schemagen.Namespaced,reflect.TypeOf(knative_serving_v1beta1.RouteList{}):  schemagen.Namespaced,reflect.TypeOf(knative_eventing_v1beta1.Broker{}):  schemagen.Namespaced,reflect.TypeOf(knative_eventing_v1beta1.BrokerList{}):  schemagen.Namespaced,reflect.TypeOf(knative_eventing_v1beta1.Trigger{}):  schemagen.Namespaced,reflect.TypeOf(knative_eventing_v1beta1.TriggerList{}):  schemagen.Namespaced,reflect.TypeOf(knative_eventing_v1beta1.EventType{}):  schemagen.Namespaced,reflect.TypeOf(knative_eventing_v1beta1.EventTypeList{}):  schemagen.Namespaced,reflect.TypeOf(knative_messaging.Channel{}):  schemagen.Namespaced,reflect.TypeOf(knative_messaging.ChannelList{}):  schemagen.Namespaced,reflect.TypeOf(knative_messaging.InMemoryChannel{}):  schemagen.Namespaced,reflect.TypeOf(knative_messaging.InMemoryChannelList{}):  schemagen.Namespaced,reflect.TypeOf(knative_messaging.Subscription{}):  schemagen.Namespaced,reflect.TypeOf(knative_messaging.SubscriptionList{}):  schemagen.Namespaced,
 	}
 
 	// constraints and patterns for fields
@@ -56,7 +60,10 @@ func main() {
 	// mapping of go packages of this module to the resulting java package
 	// optional ApiGroup and ApiVersion for the go package (which is added to the generated java class)
 	packageMapping := map[string]schemagen.PackageInformation{
-		"k8s.io/code-generator/_examples/MixedCase/apis/example/v1": {JavaPackage: "io.kubernetes.mixedcase.api.model", ApiGroup: "mixedcase.k8s.io", ApiVersion: "v1"},
+		"github.com/knative/serving/pkg/apis/serving/v1": {JavaPackage: "io.kubernetes.knative.api.model.serving.v1", ApiGroup: "knative.dev", ApiVersion: "v1"},
+"github.com/knative/serving/pkg/apis/serving/v1beta1": {JavaPackage: "io.kubernetes.knative.api.model.serving.v1beta1", ApiGroup: "knative.dev", ApiVersion: "v1"},
+"github.com/knative/eventing/pkg/apis/eventing/v1alpha1": {JavaPackage: "io.kubernetes.knative.api.model.serving.v1beta1", ApiGroup: "knative.dev", ApiVersion: "v1"},
+"knative.dev/eventing/pkg/apis/messaging/v1alpha1": {JavaPackage: "io.kubernetes.knative.api.model.messaging.v1alpha1", ApiGroup: "knative.dev", ApiVersion: "v1"},
 
 	}
 
@@ -66,13 +73,15 @@ func main() {
 	// e.g. knative.dev/eventing/pkg/apis/messaging/v1beta1/ChannelTemplateSpec is mapped to "io.fabric8.knative.internal.eventing.pkg.apis.messaging.v1beta1.ChannelTemplateSpec"
 	mappingSchema := map[string]string{
 		"github.com/kubernetes-sigs": "io.fabric8.servicecatalog.internal",
-		
+		"knative.dev": "io.fabric8.knative.internal",
 	}
 
 	// overwriting some times
 	manualTypeMap := map[reflect.Type]string{
 
-                
+                reflect.TypeOf(apis.URL{}):              "java.lang.String",
+reflect.TypeOf(apis.VolatileTime{}):              "java.lang.String",
+
 
 		reflect.TypeOf(v1.Time{}):              "java.lang.String",
 		reflect.TypeOf(runtime.RawExtension{}): "Map<String, Object>",
