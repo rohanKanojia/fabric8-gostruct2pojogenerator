@@ -5,13 +5,17 @@ import io.fabric8.generator.model.GoPackage;
 import io.fabric8.generator.model.GoPackageIndirectDependencies;
 import io.fabric8.generator.model.GoScriptInput;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class GoScriptCreator {
+    private static final Logger logger = Logger.getLogger(GoScriptCreator.class.getSimpleName());
     private static final String INPUT_FILE = "/generator/input.json";
     private static final String GO_TEMPLATE = "/generate-go-template.go";
     private static final String TARGET_GO_FILE = "cmd/generate/generate.go";
@@ -30,6 +34,7 @@ public class GoScriptCreator {
 
         GoScriptInput goScriptInput = objectMapper.readValue(inputFile, GoScriptInput.class);
         processInput(goScriptInput);
+        runBashCommand("make");
     }
 
     private static void processInput(GoScriptInput goScriptInput) throws IOException {
@@ -111,7 +116,7 @@ public class GoScriptCreator {
             File projectBaseDir = new File(System.getProperty("user.dir"));
             File goTargetFile = new File(projectBaseDir, TARGET_GO_FILE);
 
-            System.out.println("Writing: " + goTargetFile.getAbsolutePath());
+            logger.info("Writing: " + goTargetFile.getAbsolutePath());
             try (FileWriter fooWriter = new FileWriter(goTargetFile, false)) {
                 fooWriter.write(new String(fileAsStr.getBytes()));
             }
@@ -123,6 +128,24 @@ public class GoScriptCreator {
             return input.replace(template, value);
         } else {
             return input.replace(template, "");
+        }
+    }
+
+    private static void runBashCommand(String command) {
+        try {
+            Process process = Runtime.getRuntime().exec(command);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line = null;
+            while ((line = bufferedReader.readLine()) != null) {
+                System.out.println("GOBUILD: " + line);
+            }
+            process.waitFor();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException interruptedEx) {
+            Thread.currentThread().interrupt();
+            interruptedEx.printStackTrace();
         }
     }
 }
