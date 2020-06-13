@@ -46,6 +46,9 @@ func main() {
 	providedPackages := map[string]string{
 		// external
 		"k8s.io/apimachinery/pkg/apis/meta/v1": "io.fabric8.kubernetes.api.model",
+                "k8s.io/api/core/v1":                   "io.fabric8.kubernetes.api.model",
+		"k8s.io/apimachinery/pkg/api/resource": "io.fabric8.kubernetes.api.model",
+		"k8s.io/apimachinery/pkg/runtime":      "io.fabric8.kubernetes.api.model.runtime",
 	}
 
 	// mapping of go packages of this module to the resulting java package
@@ -60,16 +63,20 @@ func main() {
 	// e.g. knative.dev/eventing/pkg/apis/messaging/v1beta1/ChannelTemplateSpec is mapped to "io.fabric8.knative.internal.eventing.pkg.apis.messaging.v1beta1.ChannelTemplateSpec"
 	mappingSchema := map[string]string{
 		"github.com/kubernetes-sigs": "io.fabric8.servicecatalog.internal",
+		__INTERNAL_PACKAGE_MAPPING__
 	}
 
 	// overwriting some times
 	manualTypeMap := map[reflect.Type]string{
+
+                __MANUAL_MAPPING__
+
 		reflect.TypeOf(v1.Time{}):              "java.lang.String",
 		reflect.TypeOf(runtime.RawExtension{}): "Map<String, Object>",
 		reflect.TypeOf([]byte{}):               "java.lang.String",
 	}
 
-	json := schemagen.GenerateSchema("http://fabric8.io/kubernetes/MixedCaseSchema#", crdLists, providedPackages, manualTypeMap, packageMapping, mappingSchema, providedTypes, constraints)
+	json := schemagen.GenerateSchema("http://fabric8.io/code-generator/Schema#", crdLists, providedPackages, manualTypeMap, packageMapping, mappingSchema, providedTypes, constraints)
 
 	fmt.Println(json)
 }

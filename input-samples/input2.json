@@ -1,14 +1,71 @@
 {
     "packages": [
     {
-        "name":"jinghzhu",
-        "goPackage": "github.com/jinghzhu/KubernetesCRD/pkg/crd/jinghzhu/v1/types.go",
-        "javaPackage": "io.kubernetes.jinghzhu.api.model",
-        "apiGroup":"jinghzhu.k8s.io",
+        "name":"knative_serving_v1",
+        "goPackage": "github.com/knative/serving/pkg/apis/serving/v1",
+        "javaPackage": "io.kubernetes.knative.api.model.serving.v1",
+        "apiGroup":"knative.dev",
         "apiVersion": "v1",
         "types": [
-           {"name":"Jinghzhu", "namespaced":true}
+           {"name":"Service", "namespaced":true},
+           {"name":"Revision", "namespaced":true},
+           {"name":"Configuration", "namespaced":true},
+           {"name":"Route", "namespaced":true}
+        ]
+    },
+    {
+        "name":"knative_serving_v1beta1",
+        "goPackage": "github.com/knative/serving/pkg/apis/serving/v1beta1",
+        "javaPackage": "io.kubernetes.knative.api.model.serving.v1beta1",
+        "apiGroup":"knative.dev",
+        "apiVersion": "v1",
+        "types": [
+           {"name":"Service", "namespaced":true},
+           {"name":"Revision", "namespaced":true},
+           {"name":"Configuration", "namespaced":true},
+           {"name":"Route", "namespaced":true}
+        ]
+    },
+    {
+        "name":"knative_eventing_v1beta1",
+        "goPackage": "github.com/knative/eventing/pkg/apis/eventing/v1alpha1",
+        "javaPackage": "io.kubernetes.knative.api.model.serving.v1beta1",
+        "apiGroup":"knative.dev",
+        "apiVersion": "v1",
+        "types": [
+           {"name":"Broker", "namespaced":true},
+           {"name":"Trigger", "namespaced":true},
+           {"name":"EventType", "namespaced":true}
+        ]
+    },
+    {
+        "name":"knative_messaging",
+        "goPackage": "knative.dev/eventing/pkg/apis/messaging/v1alpha1",
+        "javaPackage": "io.kubernetes.knative.api.model.messaging.v1alpha1",
+        "apiGroup":"knative.dev",
+        "apiVersion": "v1",
+        "types": [
+           {"name":"Channel", "namespaced":true},
+           {"name":"InMemoryChannel", "namespaced":true},
+           {"name":"Subscription", "namespaced":true}
         ]
     }
-    ]
+    ],
+    "dependencies": 
+    [
+      {
+          "name": "apis",
+          "goPackage":"knative.dev/pkg/apis",
+          "mapping": {
+              "URL": "java.lang.String",
+              "VolatileTime": "java.lang.String"
+          }
+
+      }
+    ],
+  "internalPackageMapping" : {
+    "knative.dev": "io.fabric8.knative.internal"
+  }
+
 }
+

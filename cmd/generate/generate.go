@@ -20,7 +20,8 @@ import (
 	"github.com/rohanKanojia/code-generation-using-fabric8/generator/pkg/schemagen"
 
 
-    Kong "github.com/Kong/kubernetes-ingress-controller/internal/apis/configuration/v1"
+    mixedcase "k8s.io/code-generator/_examples/MixedCase/apis/example/v1"
+
 
 
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -33,7 +34,7 @@ func main() {
 	// the CRD List types for which the model should be generated
 	// no other types need to be defined as they are auto discovered
 	crdLists := map[reflect.Type]schemagen.CrdScope{
-		reflect.TypeOf(Kong.KongIngressList{}):  schemagen.Namespaced,reflect.TypeOf(Kong.KongClusterPluginList{}):  schemagen.Namespaced,
+		reflect.TypeOf(mixedcase.ClusterTestTypeList{}):  schemagen.Namespaced,reflect.TypeOf(mixedcase.TestTypeList{}):  schemagen.Namespaced,
 	}
 
 	// constraints and patterns for fields
@@ -46,12 +47,16 @@ func main() {
 	providedPackages := map[string]string{
 		// external
 		"k8s.io/apimachinery/pkg/apis/meta/v1": "io.fabric8.kubernetes.api.model",
+                "k8s.io/api/core/v1":                   "io.fabric8.kubernetes.api.model",
+		"k8s.io/apimachinery/pkg/api/resource": "io.fabric8.kubernetes.api.model",
+		"k8s.io/apimachinery/pkg/runtime":      "io.fabric8.kubernetes.api.model.runtime",
 	}
 
 	// mapping of go packages of this module to the resulting java package
 	// optional ApiGroup and ApiVersion for the go package (which is added to the generated java class)
 	packageMapping := map[string]schemagen.PackageInformation{
-		"github.com/Kong/kubernetes-ingress-controller/internal/apis/configuration/v1": {JavaPackage: "io.kubernetes.kong.api.model", ApiGroup: "kong.k8s.io", ApiVersion: "v1"},
+		"k8s.io/code-generator/_examples/MixedCase/apis/example/v1": {JavaPackage: "io.kubernetes.mixedcase.api.model", ApiGroup: "mixedcase.k8s.io", ApiVersion: "v1"},
+
 	}
 
 	// converts all packages starting with <key> to a java package using an automated scheme:
@@ -60,16 +65,20 @@ func main() {
 	// e.g. knative.dev/eventing/pkg/apis/messaging/v1beta1/ChannelTemplateSpec is mapped to "io.fabric8.knative.internal.eventing.pkg.apis.messaging.v1beta1.ChannelTemplateSpec"
 	mappingSchema := map[string]string{
 		"github.com/kubernetes-sigs": "io.fabric8.servicecatalog.internal",
+		
 	}
 
 	// overwriting some times
 	manualTypeMap := map[reflect.Type]string{
+
+                
+
 		reflect.TypeOf(v1.Time{}):              "java.lang.String",
 		reflect.TypeOf(runtime.RawExtension{}): "Map<String, Object>",
 		reflect.TypeOf([]byte{}):               "java.lang.String",
 	}
 
-	json := schemagen.GenerateSchema("http://fabric8.io/kubernetes/MixedCaseSchema#", crdLists, providedPackages, manualTypeMap, packageMapping, mappingSchema, providedTypes, constraints)
+	json := schemagen.GenerateSchema("http://fabric8.io/code-generator/Schema#", crdLists, providedPackages, manualTypeMap, packageMapping, mappingSchema, providedTypes, constraints)
 
 	fmt.Println(json)
 }

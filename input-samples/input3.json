@@ -1,0 +1,15 @@
+{
+    "packages": [
+    {
+        "name":"samplecontroller",
+        "goPackage": "k8s.io/sample-controller/pkg/apis/samplecontroller/v1alpha1",
+        "javaPackage": "io.kubernetes.samplecontroller.api.model",
+        "apiGroup":"samplecontroller.k8s.io",
+        "apiVersion": "v1alpha1",
+        "types": [
+           {"name":"Foo", "namespaced":true}
+        ]
+    }
+    ]
+}
+

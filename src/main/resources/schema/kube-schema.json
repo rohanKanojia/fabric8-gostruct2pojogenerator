@@ -1,5 +1,5 @@
 {
-  "id": "http://fabric8.io/kubernetes/MixedCaseSchema#",
+  "id": "http://fabric8.io/code-generator/Schema#",
   "$schema": "http://json-schema.org/schema#",
   "definitions": {
     "k8s_io_code-generator__examples_MixedCase_apis_example_v1_ClusterTestType": {

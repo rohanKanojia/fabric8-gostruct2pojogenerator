@@ -1,13 +1,14 @@
 {
     "packages": [
     {
-        "name":"jinghzhu",
-        "goPackage": "github.com/jinghzhu/KubernetesCRD/pkg/crd/jinghzhu/v1/types.go",
-        "javaPackage": "io.kubernetes.jinghzhu.api.model",
-        "apiGroup":"jinghzhu.k8s.io",
+        "name":"mixedcase",
+        "goPackage": "k8s.io/code-generator/_examples/MixedCase/apis/example/v1",
+        "javaPackage": "io.kubernetes.mixedcase.api.model",
+        "apiGroup":"mixedcase.k8s.io",
         "apiVersion": "v1",
         "types": [
-           {"name":"Jinghzhu", "namespaced":true}
+           {"name":"ClusterTestType", "namespaced":true}, 
+           {"name":"TestType", "namespaced":true}
         ]
     }
     ]

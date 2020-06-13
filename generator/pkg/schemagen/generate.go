@@ -337,21 +337,23 @@ func (g *schemaGenerator) getFields(t reflect.Type) []reflect.StructField {
 		return fields
 	}
 
-	for i := 0; i < t.NumField(); i++ {
-		field := t.Field(i)
+	if (t.Kind() == reflect.Struct) {
+		for i := 0; i < t.NumField(); i++ {
+			field := t.Field(i)
 
-		fieldType := g.fieldCategory(field)
+			fieldType := g.fieldCategory(field)
 
-		if fieldType == EMBEDDED {
-			// flatten embedded fields
-			embeddedFields := g.getFields(field.Type)
-			for _, ef := range embeddedFields {
-				fields = append(fields, ef)
+			if fieldType == EMBEDDED {
+				// flatten embedded fields
+				embeddedFields := g.getFields(field.Type)
+				for _, ef := range embeddedFields {
+					fields = append(fields, ef)
+				}
+			} else {
+				fields = append(fields, field)
 			}
-		} else {
-			fields = append(fields, field)
-		}
 
+		}
 	}
 
 	return fields
