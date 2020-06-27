@@ -49,6 +49,7 @@ func main() {
                 "k8s.io/api/core/v1":                   "io.fabric8.kubernetes.api.model",
 		"k8s.io/apimachinery/pkg/api/resource": "io.fabric8.kubernetes.api.model",
 		"k8s.io/apimachinery/pkg/runtime":      "io.fabric8.kubernetes.api.model.runtime",
+		__PROVIDED_PACKAGE_MAPPING__
 	}
 
 	// mapping of go packages of this module to the resulting java package

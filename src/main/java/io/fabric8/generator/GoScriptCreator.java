@@ -20,6 +20,7 @@ public class GoScriptCreator {
     private static final String GO_TEMPLATE = "/generate-go-template.go";
     private static final String TARGET_GO_FILE = "cmd/generate/generate.go";
     private static final String PACKAGE_MAPPING = "__PACKAGE_MAPPING__";
+    private static final String PROVIDED_PACKAGE_MAPPING = "__PROVIDED_PACKAGE_MAPPING__";
     private static final String TYPES = "__TYPES__";
     private static final String IMPORTS = "__IMPORTS__";
     private static final String MANUAL_MAPPING = "__MANUAL_MAPPING__";
@@ -44,6 +45,7 @@ public class GoScriptCreator {
             StringBuilder packageMappingBuilder = new StringBuilder();
             StringBuilder internalPackageMappingBuilder = new StringBuilder();
             StringBuilder manualTypeMappingBuilder = new StringBuilder();
+            StringBuilder providedPackageMappingBuilder = new StringBuilder();
 
             // Process all packages
             for (GoPackage goPackage : goScriptInput.getPackages()) {
@@ -98,11 +100,20 @@ public class GoScriptCreator {
                             .append("\",");
                 }
             }
-            loadGoGenerateTemplateAndApply(importBuilder.toString(), typeBuilder.toString(), packageMappingBuilder.toString(), manualTypeMappingBuilder.toString(), internalPackageMappingBuilder.toString());
+
+            if (goScriptInput.getProvidedPackageMapping() != null) {
+                for (Map.Entry<String, String> entry: goScriptInput.getProvidedPackageMapping().entrySet()) {
+                    providedPackageMappingBuilder.append("\"")
+                            .append(entry.getKey()).append("\": ")
+                            .append("\"").append(entry.getValue())
+                            .append("\",");
+                }
+            }
+            loadGoGenerateTemplateAndApply(importBuilder.toString(), typeBuilder.toString(), packageMappingBuilder.toString(), manualTypeMappingBuilder.toString(), internalPackageMappingBuilder.toString(), providedPackageMappingBuilder.toString());
         }
     }
 
-    private static void loadGoGenerateTemplateAndApply(String imports, String types, String mapping, String manualTypeMapping, String internalTypeMapping) throws IOException {
+    private static void loadGoGenerateTemplateAndApply(String imports, String types, String mapping, String manualTypeMapping, String internalTypeMapping, String providedPackageMapping) throws IOException {
         File goTemplate = new File(GoScriptCreator.class.getResource(GO_TEMPLATE).getPath());
         if (goTemplate.exists()) {
             String fileAsStr = new String(Files.readAllBytes(goTemplate.toPath()));
@@ -110,6 +121,7 @@ public class GoScriptCreator {
             fileAsStr = searchAndReplaceTemplate(fileAsStr, IMPORTS, imports);
             fileAsStr = searchAndReplaceTemplate(fileAsStr, TYPES, types);
             fileAsStr = searchAndReplaceTemplate(fileAsStr, PACKAGE_MAPPING, mapping);
+            fileAsStr = searchAndReplaceTemplate(fileAsStr, PROVIDED_PACKAGE_MAPPING, providedPackageMapping);
             fileAsStr = searchAndReplaceTemplate(fileAsStr, MANUAL_MAPPING, manualTypeMapping);
             fileAsStr = searchAndReplaceTemplate(fileAsStr, INTERNAL_PACKAGE_MAPPING, internalTypeMapping);
 

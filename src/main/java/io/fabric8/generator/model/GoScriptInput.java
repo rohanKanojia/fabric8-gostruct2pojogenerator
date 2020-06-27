@@ -7,6 +7,15 @@ public class GoScriptInput {
     private List<GoPackage> packages;
     private List<GoPackageIndirectDependencies> dependencies;
     private Map<String, String> internalPackageMapping;
+    private Map<String, String> providedPackageMapping;
+
+    public Map<String, String> getProvidedPackageMapping() {
+        return providedPackageMapping;
+    }
+
+    public void setProvidedPackageMapping(Map<String, String> providedPackageMapping) {
+        this.providedPackageMapping = providedPackageMapping;
+    }
 
     public Map<String, String> getInternalPackageMapping() {
         return internalPackageMapping;

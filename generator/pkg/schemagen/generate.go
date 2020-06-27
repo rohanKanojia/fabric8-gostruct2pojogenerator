@@ -221,7 +221,7 @@ func (g *schemaGenerator) javaType(t reflect.Type) string {
 		return "Object"
 	}
 
-	if t.Kind() == reflect.Struct && ok {
+	if t.Kind() == reflect.Struct {
 		pkgDesc, ok := g.packageMapping[t.PkgPath()]
 		switch t.Name() {
 		case "Time":
@@ -230,16 +230,15 @@ func (g *schemaGenerator) javaType(t reflect.Type) string {
 			return "io.fabric8.kubernetes.api.model.HasMetadata"
 		case "List":
 			return pkgDesc.JavaPackage + ".BaseKubernetesList"
-		default:
-			return pkgDesc.JavaPackage + "." + t.Name()
 		}
 
 		if ok {
 			return pkgDesc.JavaPackage + "." + t.Name()
 		}
 	}
+    panic("No type mapping for " + t.PkgPath() + "." + t.Name())
 
-	return t.Name()
+	//return t.Name()
 }
 
 func (g *schemaGenerator) javaInterfaces(t reflect.Type) []string {
