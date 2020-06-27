@@ -20,7 +20,7 @@ import (
 	"github.com/rohanKanojia/code-generation-using-fabric8/generator/pkg/schemagen"
 
 
-    mixedcase "k8s.io/code-generator/_examples/MixedCase/apis/example/v1"
+    samplecontroller "k8s.io/sample-controller/pkg/apis/samplecontroller/v1alpha1"
 
 
 
@@ -34,7 +34,7 @@ func main() {
 	// the CRD List types for which the model should be generated
 	// no other types need to be defined as they are auto discovered
 	crdLists := map[reflect.Type]schemagen.CrdScope{
-		reflect.TypeOf(mixedcase.ClusterTestType{}):  schemagen.Namespaced,reflect.TypeOf(mixedcase.ClusterTestTypeList{}):  schemagen.Namespaced,reflect.TypeOf(mixedcase.TestType{}):  schemagen.Namespaced,reflect.TypeOf(mixedcase.TestTypeList{}):  schemagen.Namespaced,
+		reflect.TypeOf(samplecontroller.FooList{}):  schemagen.Namespaced,
 	}
 
 	// constraints and patterns for fields
@@ -50,13 +50,12 @@ func main() {
                 "k8s.io/api/core/v1":                   "io.fabric8.kubernetes.api.model",
 		"k8s.io/apimachinery/pkg/api/resource": "io.fabric8.kubernetes.api.model",
 		"k8s.io/apimachinery/pkg/runtime":      "io.fabric8.kubernetes.api.model.runtime",
-		
 	}
 
 	// mapping of go packages of this module to the resulting java package
 	// optional ApiGroup and ApiVersion for the go package (which is added to the generated java class)
 	packageMapping := map[string]schemagen.PackageInformation{
-		"k8s.io/code-generator/_examples/MixedCase/apis/example/v1": {JavaPackage: "io.kubernetes.mixedcase.api.model", ApiGroup: "mixedcase.k8s.io", ApiVersion: "v1"},
+		"k8s.io/sample-controller/pkg/apis/samplecontroller/v1alpha1": {JavaPackage: "io.kubernetes.samplecontroller.api.model", ApiGroup: "samplecontroller.k8s.io", ApiVersion: "v1alpha1"},
 
 	}
 

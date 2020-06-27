@@ -1,17 +1,16 @@
 {
     "packages": [
     {
-        "name":"mixedcase",
-        "goPackage": "k8s.io/code-generator/_examples/MixedCase/apis/example/v1",
-        "javaPackage": "io.kubernetes.mixedcase.api.model",
-        "apiGroup":"mixedcase.k8s.io",
-        "apiVersion": "v1",
+        "name":"samplecontroller",
+        "goPackage": "k8s.io/sample-controller/pkg/apis/samplecontroller/v1alpha1",
+        "javaPackage": "io.kubernetes.samplecontroller.api.model",
+        "apiGroup":"samplecontroller.k8s.io",
+        "apiVersion": "v1alpha1",
         "types": [
-           {"name":"ClusterTestType", "namespaced":true}, 
-           {"name":"ClusterTestTypeList", "namespaced":true},
-           {"name":"TestType", "namespaced":true},
-           {"name":"TestTypeList", "namespaced":true}
+           {"name":"Foo", "namespaced":true},
+           {"name":"FooList", "namespaced":true}
         ]
     }
     ]
 }
+
