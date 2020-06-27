@@ -236,3 +236,10 @@ If your project has some slightly complex structure and you have some internal d
 You can notice the additional `dependencies` field in which Knative dependencies are listed. It also allows manually mapping some structs to Java types if you're not satisfied with results. The `internalPackageMapping` field maps all go structs found inside `knative.dev` go path to `io.fabric8.knative.internal` package(i.e. all classes formed from `knative.dev` go path would go inside that package).
 
 You can checkout other examples in `./input-samples` directory.
+
+## Examples:
+
+I have provided some examples of different input samples as different branches, you can check them out by checking out different branches:
+
+- [Kubernetes Code Generator MixedCase](https://github.com/rohanKanojia/fabric8-gostruct2pojogenerator)
+- [Knative Model Generator](https://github.com/rohanKanojia/fabric8-gostruct2pojogenerator/tree/knative-model)
