@@ -243,3 +243,5 @@ I have provided some examples of different input samples as different branches, 
 
 - [Kubernetes Code Generator MixedCase](https://github.com/rohanKanojia/fabric8-gostruct2pojogenerator)
 - [Knative Model Generator](https://github.com/rohanKanojia/fabric8-gostruct2pojogenerator/tree/knative-model)
+- [Kubernetes Sample Controller](https://github.com/rohanKanojia/fabric8-gostruct2pojogenerator/tree/sample-controller)
+- [Tekton Model Generator](https://github.com/rohanKanojia/fabric8-gostruct2pojogenerator/tree/Tekton)
