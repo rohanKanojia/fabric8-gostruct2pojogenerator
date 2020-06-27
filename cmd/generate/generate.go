@@ -20,7 +20,9 @@ import (
 	"github.com/rohanKanojia/code-generation-using-fabric8/generator/pkg/schemagen"
 
 
-    mixedcase "k8s.io/code-generator/_examples/MixedCase/apis/example/v1"
+    pipeline "github.com/tektoncd/pipeline/pkg/apis/pipeline/v1alpha1"
+apimachinery "k8s.io/apimachinery/pkg/apis/meta/v1"
+knative "knative.dev/pkg/apis"
 
 
 
@@ -34,7 +36,8 @@ func main() {
 	// the CRD List types for which the model should be generated
 	// no other types need to be defined as they are auto discovered
 	crdLists := map[reflect.Type]schemagen.CrdScope{
-		reflect.TypeOf(mixedcase.ClusterTestType{}):  schemagen.Namespaced,reflect.TypeOf(mixedcase.ClusterTestTypeList{}):  schemagen.Namespaced,reflect.TypeOf(mixedcase.TestType{}):  schemagen.Namespaced,reflect.TypeOf(mixedcase.TestTypeList{}):  schemagen.Namespaced,
+		reflect.TypeOf(pipeline.PipelineList{}):  schemagen.Namespaced,reflect.TypeOf(pipeline.PipelineRunList{}):  schemagen.Namespaced,reflect.TypeOf(pipeline.TaskList{}):  schemagen.Namespaced,reflect.TypeOf(pipeline.TaskRunList{}):  schemagen.Namespaced,reflect.TypeOf(pipeline.ClusterTaskList{}):  schemagen.Cluster,
+reflect.TypeOf(pipeline.ConditionList{}):  schemagen.Namespaced,
 	}
 
 	// constraints and patterns for fields
@@ -50,13 +53,13 @@ func main() {
                 "k8s.io/api/core/v1":                   "io.fabric8.kubernetes.api.model",
 		"k8s.io/apimachinery/pkg/api/resource": "io.fabric8.kubernetes.api.model",
 		"k8s.io/apimachinery/pkg/runtime":      "io.fabric8.kubernetes.api.model.runtime",
-		
+		"knative.dev/pkg/apis": "io.fabric8.knative.internal.pkg.apis",
 	}
 
 	// mapping of go packages of this module to the resulting java package
 	// optional ApiGroup and ApiVersion for the go package (which is added to the generated java class)
 	packageMapping := map[string]schemagen.PackageInformation{
-		"k8s.io/code-generator/_examples/MixedCase/apis/example/v1": {JavaPackage: "io.kubernetes.mixedcase.api.model", ApiGroup: "mixedcase.k8s.io", ApiVersion: "v1"},
+		"github.com/tektoncd/pipeline/pkg/apis/pipeline/v1alpha1": {JavaPackage: "io.fabric8.tekton.pipeline.v1alpha1", ApiGroup: "tekton.dev", ApiVersion: "v1alpha1"},
 
 	}
 
@@ -66,13 +69,16 @@ func main() {
 	// e.g. knative.dev/eventing/pkg/apis/messaging/v1beta1/ChannelTemplateSpec is mapped to "io.fabric8.knative.internal.eventing.pkg.apis.messaging.v1beta1.ChannelTemplateSpec"
 	mappingSchema := map[string]string{
 		"github.com/kubernetes-sigs": "io.fabric8.servicecatalog.internal",
-		
+		"github.com/tektoncd": "io.fabric8.tekton.v1alpha1.internal",
 	}
 
 	// overwriting some times
 	manualTypeMap := map[reflect.Type]string{
 
-                
+                reflect.TypeOf(apimachinery.Time{}):              "java.lang.String",
+reflect.TypeOf(knative.VolatileTime{}):              "java.lang.String",
+reflect.TypeOf(knative.URL{}):              "java.lang.String",
+
 
 		reflect.TypeOf(v1.Time{}):              "java.lang.String",
 		reflect.TypeOf(runtime.RawExtension{}): "Map<String, Object>",
