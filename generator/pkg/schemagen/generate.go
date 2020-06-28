@@ -53,8 +53,9 @@ type Constraint struct {
 type CrdScope int32
 
 const (
-	Namespaced CrdScope = 0
-	Cluster    CrdScope = 1
+	Namespaced  CrdScope = 0
+	Cluster     CrdScope = 1
+	Unspecified CrdScope = 2
 )
 
 func GenerateSchema(schemaId string, crdLists map[reflect.Type]CrdScope, providedPackages map[string]string, manualTypeMap map[reflect.Type]string, packageMapping map[string]PackageInformation, mappingSchema map[string]string, providedTypes []ProvidedType, constraints map[reflect.Type]map[string]*Constraint) string {
@@ -257,7 +258,9 @@ func (g *schemaGenerator) javaInterfaces(t reflect.Type) []string {
 		if scope == Namespaced {
 			return []string{"io.fabric8.kubernetes.api.model.HasMetadata", "io.fabric8.kubernetes.api.model.Namespaced"}
 		}
-		return []string{"io.fabric8.kubernetes.api.model.HasMetadata"}
+		if scope == Cluster {
+			return []string{"io.fabric8.kubernetes.api.model.HasMetadata"}
+		}
 	}
 
 	itemsField, hasItems := t.FieldByName("Items")
@@ -771,7 +774,7 @@ func (g *schemaGenerator) crdScope(t reflect.Type) CrdScope {
 
 	}
 
-	panic("No CRD scope information for " + t.Name())
+	return Unspecified
 
 }
 
