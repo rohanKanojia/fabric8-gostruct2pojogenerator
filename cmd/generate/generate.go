@@ -34,7 +34,7 @@ func main() {
 	// the CRD List types for which the model should be generated
 	// no other types need to be defined as they are auto discovered
 	crdLists := map[reflect.Type]schemagen.CrdScope{
-		reflect.TypeOf(mixedcase.ClusterTestTypeList{}):  schemagen.Namespaced,reflect.TypeOf(mixedcase.TestTypeList{}):  schemagen.Namespaced,
+		reflect.TypeOf(mixedcase.ClusterTestType{}):  schemagen.Namespaced,reflect.TypeOf(mixedcase.ClusterTestTypeList{}):  schemagen.Namespaced,reflect.TypeOf(mixedcase.TestType{}):  schemagen.Namespaced,reflect.TypeOf(mixedcase.TestTypeList{}):  schemagen.Namespaced,
 	}
 
 	// constraints and patterns for fields
@@ -50,6 +50,7 @@ func main() {
                 "k8s.io/api/core/v1":                   "io.fabric8.kubernetes.api.model",
 		"k8s.io/apimachinery/pkg/api/resource": "io.fabric8.kubernetes.api.model",
 		"k8s.io/apimachinery/pkg/runtime":      "io.fabric8.kubernetes.api.model.runtime",
+		
 	}
 
 	// mapping of go packages of this module to the resulting java package

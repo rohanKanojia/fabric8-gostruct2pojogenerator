@@ -145,12 +145,18 @@ func (g *schemaGenerator) jsonDescriptor(t reflect.Type) *JSONDescriptor {
 	t = g.resolvePointer(t)
 
 	switch t.Kind() {
-	case reflect.Int, reflect.Int32, reflect.Int64:
+	case reflect.Int, reflect.Int32, reflect.Int64, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
 		return &JSONDescriptor{Type: "integer"}
 	case reflect.Bool:
 		return &JSONDescriptor{Type: "boolean"}
 	case reflect.String:
 		return &JSONDescriptor{Type: "string"}
+	case reflect.Float32, reflect.Float64:
+		return &JSONDescriptor{Type: "Double"}
+	case reflect.Interface:
+		return &JSONDescriptor{
+			Type: g.resolveJavaClassUsingOwnPackages(t),
+		}
 	}
 
 	panic("Nothing for " + t.Name())
@@ -186,12 +192,14 @@ func (g *schemaGenerator) javaType(t reflect.Type) string {
 		switch t.Kind() {
 		case reflect.Bool:
 			return "Boolean"
-		case reflect.Int, reflect.Int32:
+		case reflect.Int, reflect.Int32, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
 			return "Integer"
 		case reflect.String:
 			return "String"
 		case reflect.Int64:
 			return "Long"
+		case reflect.Float32, reflect.Float64:
+			return "Double"
 		}
 	}
 
@@ -221,7 +229,7 @@ func (g *schemaGenerator) javaType(t reflect.Type) string {
 		return "Object"
 	}
 
-	if t.Kind() == reflect.Struct {
+	if t.Kind() == reflect.Struct || t.Kind() == reflect.Interface {
 		pkgDesc, ok := g.packageMapping[t.PkgPath()]
 		switch t.Name() {
 		case "Time":
@@ -236,28 +244,27 @@ func (g *schemaGenerator) javaType(t reflect.Type) string {
 			return pkgDesc.JavaPackage + "." + t.Name()
 		}
 	}
-    panic("No type mapping for " + t.PkgPath() + "." + t.Name())
+	panic("No type mapping for " + t.PkgPath() + "." + t.Name())
 
 	//return t.Name()
 }
 
 func (g *schemaGenerator) javaInterfaces(t reflect.Type) []string {
 
-	if g.isCRD(t) {
-
+	if _, ok := t.FieldByName("ObjectMeta"); t.Name() != "JobTemplateSpec" && t.Name() != "PodTemplateSpec" && ok {
 		scope := g.crdScope(t)
 
 		if scope == Namespaced {
 			return []string{"io.fabric8.kubernetes.api.model.HasMetadata", "io.fabric8.kubernetes.api.model.Namespaced"}
 		}
-
 		return []string{"io.fabric8.kubernetes.api.model.HasMetadata"}
 	}
 
-	if g.isCRDList(t) {
-		return []string{"io.fabric8.kubernetes.api.model.KubernetesResource", g.resourceListInterface(t)}
+	itemsField, hasItems := t.FieldByName("Items")
+	_, hasListMeta := t.FieldByName("ListMeta")
+	if hasItems && hasListMeta {
+		return []string{"io.fabric8.kubernetes.api.model.KubernetesResource", g.resourceListWithGeneric(itemsField.Type)}
 	}
-
 	return []string{"io.fabric8.kubernetes.api.model.KubernetesResource"}
 }
 
@@ -301,8 +308,14 @@ func (g *schemaGenerator) generate(schemaId string, crdLists map[reflect.Type]Cr
 				JavaInterfaces: g.javaInterfaces(k),
 			},
 		}
+		if name == "_" || name == "-" {
+			continue
+		}
 		s.Definitions[name] = value
 
+		if k.Name() == "_" || k.Name() == "-" {
+			continue
+		}
 		s.Properties[name] = JSONPropertyDescriptor{
 			JSONReferenceDescriptor: &JSONReferenceDescriptor{
 				Reference: g.generateReference(k),
@@ -330,13 +343,13 @@ const (
 func (g *schemaGenerator) getFields(t reflect.Type) []reflect.StructField {
 
 	var fields = make([]reflect.StructField, 0)
-	if (t.Name() == "ListMeta") {
+	if t.Name() == "ListMeta" {
 		f := reflect.StructField{Name: "metadata", Type: t}
 		fields = append(fields, f)
 		return fields
 	}
 
-	if (t.Kind() == reflect.Struct) {
+	if t.Kind() == reflect.Struct {
 		for i := 0; i < t.NumField(); i++ {
 			field := t.Field(i)
 
@@ -368,17 +381,24 @@ func (g *schemaGenerator) getStructProperties(t reflect.Type) map[string]JSONPro
 	fieldList := g.getFields(t)
 	for _, field := range fieldList {
 		jsonName := g.jsonFieldName(field)
+		if jsonName == "-" || jsonName == "_" {
+			continue
+		}
 		result[jsonName] = g.propertyDescriptor(field, t)
 	}
 
 	// setting api version default values
 	if g.isCRD(t) || g.isCRDList(t) {
-		apiVersionPropertyDescriptor, _ := result["apiVersion"]
-		g.setApiVersion(apiVersionPropertyDescriptor, t)
+		apiVersionPropertyDescriptor, bFoundApiVersion := result["apiVersion"]
+		if bFoundApiVersion {
+			g.setApiVersion(apiVersionPropertyDescriptor, t)
+		}
 
-		kindPropertyDescriptor, _ := result["kind"]
-		kindPropertyDescriptor.Default = t.Name()
-		kindPropertyDescriptor.Required = true
+		kindPropertyDescriptor, bFoundKind := result["kind"]
+		if bFoundKind {
+			kindPropertyDescriptor.Default = t.Name()
+			kindPropertyDescriptor.Required = true
+		}
 	}
 
 	return result
@@ -490,11 +510,13 @@ func isSimpleJavaType(fieldType reflect.Type) bool {
 	switch fieldType.Kind() {
 	case reflect.Bool:
 		return true
-	case reflect.Int, reflect.Int32:
+	case reflect.Int, reflect.Int32, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
 		return true
 	case reflect.String:
 		return true
 	case reflect.Int64:
+		return true
+	case reflect.Float32, reflect.Float64:
 		return true
 	}
 
@@ -714,9 +736,13 @@ func (g *schemaGenerator) propertyDescriptorForList(field reflect.StructField) J
 
 }
 
+func (g *schemaGenerator) resourceListWithGeneric(t reflect.Type) string {
+	return "io.fabric8.kubernetes.api.model.KubernetesResourceList<" + g.javaType(t.Elem()) + ">"
+}
+
 func (g *schemaGenerator) isCRD(t reflect.Type) bool {
 
-	typeName := t.PkgPath() + "." + t.Name() + "List"
+	typeName := t.PkgPath() + "." + t.Name()
 
 	for crd, _ := range g.crdLists {
 		// provided are CRDList as an entry point
@@ -733,7 +759,7 @@ func (g *schemaGenerator) isCRD(t reflect.Type) bool {
 
 func (g *schemaGenerator) crdScope(t reflect.Type) CrdScope {
 
-	typeName := t.PkgPath() + "." + t.Name() + "List"
+	typeName := t.PkgPath() + "." + t.Name()
 
 	for crd, scope := range g.crdLists {
 		// provided are CRDList as an entry point

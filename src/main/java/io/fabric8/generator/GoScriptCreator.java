@@ -61,7 +61,7 @@ public class GoScriptCreator {
                 if (goPackage.getTypes() != null && !goPackage.getTypes().isEmpty()) {
                     goPackage.getTypes().forEach(t ->
                                     typeBuilder.append("reflect.TypeOf(").append(goPackage.getName()).append(".").append(t.getName())
-                                            .append("List{}):").append(t.getNamespaced() ? "  schemagen.Namespaced," : "  schemagen.Cluster," + "\n")
+                                            .append("{}):").append(t.getNamespaced() ? "  schemagen.Namespaced," : "  schemagen.Cluster," + "\n")
                             );
                 }
 
