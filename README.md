@@ -1,5 +1,7 @@
 # Go Struct to POJO Generator using Fabric8 Model Generators
 
+[![CircleCI](https://circleci.com/gh/rohanKanojia/fabric8-gostruct2pojogenerator/tree/master.svg?style=svg)](https://app.circleci.com/pipelines/github/rohanKanojia/fabric8-gostruct2pojogenerator)
+
 This project is a demonstration of how you can generate POJOs for your Custom Resources if you already have go structs for your Custom Resource types. You can then easily use there generated POJOs in [Fabric8 Kubernetes Client typed API](https://github.com/fabric8io/kubernetes-client/blob/doc/cheat-sheet/doc/CHEATSHEET.md#customresource-typed-api) for Custom Resources. We at [Fabric8 Kubernetes Client](https://github.com/fabric8io/kubernetes-client) team have been generating POJOs for Kubernetes resources from go structs. We also have extensions for Knative, Tekton and Service Catalog which generate model on the same principle. This project just uses the generators used by Fabric8 Kubernetes Client and tries to provide a generic way to generate your own Custom Resource POJOs by just providing simple configuration file.
 
 ## How to Build?
