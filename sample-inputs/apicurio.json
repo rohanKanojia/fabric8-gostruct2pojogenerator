@@ -1,0 +1,15 @@
+{
+    "name": "Apicurio",
+    "packages": [
+    {
+        "name":"Apicurio",
+        "goPackage": "github.com/Apicurio/apicurio-registry-operator/pkg/apis/apicur/v1alpha1",
+        "javaPackage": "io.apicur.registry.operator.api.model",
+        "apiGroup":" apicur.io",
+        "apiVersion": "v1alpha1",
+        "types": [
+           {"name":"ApicurioRegistry", "namespaced":true}
+        ]
+    }
+    ]
+}

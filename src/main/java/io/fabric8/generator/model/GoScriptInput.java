@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 public class GoScriptInput {
+    private String name;
     private List<GoPackage> packages;
     private List<GoPackageIndirectDependencies> dependencies;
     private Map<String, String> internalPackageMapping;
@@ -41,5 +42,13 @@ public class GoScriptInput {
 
     public void setPackages(List<GoPackage> packages) {
         this.packages = packages;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String n) {
+        this.name = n;
     }
 }

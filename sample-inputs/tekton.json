@@ -1,0 +1,50 @@
+
+{
+    "packages": [
+    {
+        "name":"pipeline",
+        "goPackage": "github.com/tektoncd/pipeline/pkg/apis/pipeline/v1alpha1",
+        "javaPackage": "io.fabric8.tekton.pipeline.v1alpha1",
+        "apiGroup":"tekton.dev",
+        "apiVersion": "v1alpha1",
+        "types": [
+           {"name":"Pipeline", "namespaced":true}, 
+           {"name":"PipelineList", "namespaced":true}, 
+           {"name":"PipelineRun", "namespaced":true}, 
+           {"name":"PipelineRunList", "namespaced":true}, 
+           {"name":"Task", "namespaced":true}, 
+           {"name":"TaskList", "namespaced":true}, 
+           {"name":"TaskRun", "namespaced":true}, 
+           {"name":"TaskRunList", "namespaced":true}, 
+           {"name":"ClusterTask", "namespaced":false},
+           {"name":"ClusterTaskList", "namespaced":false},
+           {"name":"Condition", "namespaced":true},
+           {"name":"ConditionList", "namespaced":true}
+        ]
+    }
+    ],
+    "dependencies":
+        [
+        {
+            "name": "apimachinery",
+            "goPackage":"k8s.io/apimachinery/pkg/apis/meta/v1",
+            "mapping": {
+                "Time": "java.lang.String"
+            }
+        },
+        {
+            "name": "knative",
+            "goPackage":"knative.dev/pkg/apis",
+            "mapping": {
+                "VolatileTime": "java.lang.String",
+                "URL": "java.lang.String"
+            }
+        }
+        ],
+  "internalPackageMapping" : {
+    "github.com/tektoncd": "io.fabric8.tekton.v1alpha1.internal"
+  },
+  "providedPackageMapping": {
+    "knative.dev/pkg/apis": "io.fabric8.knative.internal.pkg.apis"
+  }
+}
